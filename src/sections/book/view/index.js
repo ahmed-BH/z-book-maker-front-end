@@ -1,0 +1,1 @@
+export { default as BooKView } from './book-view';
