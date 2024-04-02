@@ -4,7 +4,7 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { Page, pdfjs, Document, Thumbnail } from 'react-pdf';
 
-import { Box } from '@mui/material';
+import { Box, Pagination } from '@mui/material';
 
 import './BookViewer.component.css'
 import { HEIGHT_OF_THUMBNAIL } from './constants';
@@ -15,19 +15,25 @@ export function BookViewer({ book, mainPageHeight }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfThumbnails, setNumberOfThumbnails] = useState(0);
+  const [pdfPagesCount, setPDFPagesCount] = useState(0);
 
   const onPageLoadSuccess = () => {
     setNumberOfThumbnails(Math.floor(mainPageHeight / (HEIGHT_OF_THUMBNAIL + 5)));
   }
 
-  const goToPage = ({ pageNumber }) => {
+  const goToPage = (_, pageNumber) => {
     setCurrentPage(pageNumber);
+  }
+
+  const onPDFLoadSuccess = ({ numPages }) => {
+    setPDFPagesCount(numPages);
   }
 
   return (
     <div className="book-viewer">
       <Document className='book-viewer__page-viewer'
         file={book}
+        onLoadSuccess={onPDFLoadSuccess}
         noData="">
         <div className='book-viewer__page-viewer__thumbnails'>
           {
@@ -58,6 +64,7 @@ export function BookViewer({ book, mainPageHeight }) {
             noData=""
             onLoadSuccess={onPageLoadSuccess}
           />
+          <Pagination count={pdfPagesCount} onChange={goToPage}/>
         </div>
       </Document>
     </div>
