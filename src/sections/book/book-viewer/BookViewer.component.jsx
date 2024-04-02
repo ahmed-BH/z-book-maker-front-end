@@ -31,7 +31,7 @@ export function BookViewer({ book, mainPageHeight }) {
     }
   }, [mainPageHeight, pdfPagesCount]);
 
-  const goToPage = (_, pageNumber) => {
+  const goToPage = ({ pageNumber }) => {
     setCurrentPage(pageNumber);
   }
 
@@ -76,7 +76,7 @@ export function BookViewer({ book, mainPageHeight }) {
           />
         </div>
       </Document>
-      <Pagination count={pdfPagesCount} onChange={goToPage} ref={paginationRef} />
+      <Pagination count={pdfPagesCount} onChange={(_, pageNumber) => goToPage({pageNumber})} ref={paginationRef} />
     </div>
   );
 
