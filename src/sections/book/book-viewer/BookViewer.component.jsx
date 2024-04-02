@@ -74,9 +74,9 @@ export function BookViewer({ book, mainPageHeight }) {
             noData=""
             onLoadSuccess={onPageLoadSuccess}
           />
-          <Pagination count={pdfPagesCount} onChange={goToPage} ref={paginationRef} />
         </div>
       </Document>
+      <Pagination count={pdfPagesCount} onChange={goToPage} ref={paginationRef} />
     </div>
   );
 
