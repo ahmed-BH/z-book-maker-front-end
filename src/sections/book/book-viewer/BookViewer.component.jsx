@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import React, { useRef, useState, useEffect } from 'react';
 import { Page, pdfjs, Document, Thumbnail } from 'react-pdf';
 
 import { Box, Pagination } from '@mui/material';
@@ -16,10 +16,20 @@ export function BookViewer({ book, mainPageHeight }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfThumbnails, setNumberOfThumbnails] = useState(0);
   const [pdfPagesCount, setPDFPagesCount] = useState(0);
+  const [calculatedMainPageHeight, setCalculatedMainPageHeight] = useState(0);
+
+  const paginationRef = useRef(null);
 
   const onPageLoadSuccess = () => {
-    setNumberOfThumbnails(Math.floor(mainPageHeight / (HEIGHT_OF_THUMBNAIL + 5)));
+    setCalculatedMainPageHeight(mainPageHeight - paginationRef.current.getBoundingClientRect().height - 10);
+    setNumberOfThumbnails(Math.floor(calculatedMainPageHeight / (HEIGHT_OF_THUMBNAIL + 5)));
   }
+
+  useEffect(() => {
+    if (paginationRef.current) {
+      setCalculatedMainPageHeight(mainPageHeight - paginationRef.current.getBoundingClientRect().height);
+    }
+  }, [mainPageHeight, pdfPagesCount]);
 
   const goToPage = (_, pageNumber) => {
     setCurrentPage(pageNumber);
@@ -59,12 +69,12 @@ export function BookViewer({ book, mainPageHeight }) {
         </div>
         <div className="book-viewer__page-viewer__main-page">
           <Page
-            height={mainPageHeight}
+            height={calculatedMainPageHeight}
             pageNumber={currentPage}
             noData=""
             onLoadSuccess={onPageLoadSuccess}
           />
-          <Pagination count={pdfPagesCount} onChange={goToPage}/>
+          <Pagination count={pdfPagesCount} onChange={goToPage} ref={paginationRef} />
         </div>
       </Document>
     </div>
