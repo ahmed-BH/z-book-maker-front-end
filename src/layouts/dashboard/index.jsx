@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Nav from './nav';
 import Main from './main';
 import Header from './header';
+import { isNavFixed } from './config-layout';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ export default function DashboardLayout({ children }) {
   return (
     <>
       <Header onOpenNav={() => setOpenNav(true)} />
-
+      { !isNavFixed && (<Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />) }
       <Box
         sx={{
           minHeight: 1,
@@ -23,7 +24,7 @@ export default function DashboardLayout({ children }) {
           flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        <Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />
+        { isNavFixed && (<Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />) }
 
         <Main>{children}</Main>
       </Box>

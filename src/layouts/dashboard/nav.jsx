@@ -19,8 +19,8 @@ import { account } from 'src/_mock/account';
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
-import { NAV } from './config-layout';
 import navConfig from './config-navigation';
+import { NAV, isNavFixed } from './config-layout';
 
 // ----------------------------------------------------------------------
 
@@ -98,7 +98,7 @@ export default function Nav({ openNav, onCloseNav }) {
         width: { lg: NAV.WIDTH },
       }}
     >
-      {upLg ? (
+      {(upLg && isNavFixed) ? (
         <Box
           sx={{
             height: 1,

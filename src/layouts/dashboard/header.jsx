@@ -14,9 +14,9 @@ import { bgBlur } from 'src/theme/css';
 import Iconify from 'src/components/iconify';
 
 import Searchbar from './common/searchbar';
-import { NAV, HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
 import LanguagePopover from './common/language-popover';
+import { NAV, HEADER, isNavFixed } from './config-layout';
 import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
@@ -28,7 +28,7 @@ export default function Header({ onOpenNav }) {
 
   const renderContent = (
     <>
-      {!lgUp && (
+      {(!lgUp || !isNavFixed) && (
         <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
@@ -46,6 +46,8 @@ export default function Header({ onOpenNav }) {
     </>
   );
 
+  const substractedWidth = isNavFixed ? NAV.WIDTH + 1 : 1;
+
   return (
     <AppBar
       sx={{
@@ -59,7 +61,7 @@ export default function Header({ onOpenNav }) {
           duration: theme.transitions.duration.shorter,
         }),
         ...(lgUp && {
-          width: `calc(100% - ${NAV.WIDTH + 1}px)`,
+          width: `calc(100% - ${substractedWidth}px)`,
           height: HEADER.H_DESKTOP,
         }),
       }}
