@@ -21,7 +21,7 @@ import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
-export default function Header({ onOpenNav }) {
+export default function Header({ onOpenNav, documentSection }) {
   const theme = useTheme();
 
   const lgUp = useResponsive('up', 'lg');
@@ -33,6 +33,8 @@ export default function Header({ onOpenNav }) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
       )}
+
+      {documentSection}
 
       <Searchbar />
 
@@ -80,4 +82,5 @@ export default function Header({ onOpenNav }) {
 
 Header.propTypes = {
   onOpenNav: PropTypes.func,
+  documentSection: PropTypes.element,
 };
