@@ -25,10 +25,9 @@ export default function BookView() {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ height: '100%' }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Book section</Typography>
-        <Input type='file' sx={{ display: 'none' }} onChange={fileChanged}/>
+    <Container maxWidth={false} sx={{ height: '100%' }}>
+      <Input type='file' sx={{ display: 'none' }} onChange={fileChanged} />
+      <SubToolBar />
 
         <Button
           onClick={() => document.querySelector('input[type="file"]').click()}
