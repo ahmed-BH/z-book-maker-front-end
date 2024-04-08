@@ -34,7 +34,12 @@ export default function BookView() {
 
   return (
     <Container maxWidth={false} sx={{ height: '100%' }}>
-      <Input type='file' sx={{ display: 'none' }} onChange={fileChanged} ref={inputRef}/>
+      <Input
+        type='file'
+        inputProps={{ accept: '.pdf' }}
+        sx={{ display: 'none' }}
+        onChange={fileChanged}
+        ref={inputRef} />
       <SubToolBar {...controls} />
 
         <Button
