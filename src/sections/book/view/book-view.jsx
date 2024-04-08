@@ -8,13 +8,15 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
 
+import SubToolBar from '../sub-tool-bar';
 import { BookViewer } from '../book-viewer/BookViewer.component';
 
 export default function BookView() {
   const [file, setFile] = useState(null);
   const [mainPageHeight, setMainPageHeight] = useState(0);
-  
+
   const bookViewerRef = useRef(null);
+  const inputRef = useRef(null);
 
   const fileChanged = (event) => {
     const { files } = event.target || {};
@@ -24,10 +26,16 @@ export default function BookView() {
     }
   };
 
+  const controls = {
+    basicControls: {
+      onClickNewFile: () => document.querySelector('input[type="file"]').click(),
+    }
+  }
+
   return (
     <Container maxWidth={false} sx={{ height: '100%' }}>
-      <Input type='file' sx={{ display: 'none' }} onChange={fileChanged} />
-      <SubToolBar />
+      <Input type='file' sx={{ display: 'none' }} onChange={fileChanged} ref={inputRef}/>
+      <SubToolBar {...controls} />
 
         <Button
           onClick={() => document.querySelector('input[type="file"]').click()}

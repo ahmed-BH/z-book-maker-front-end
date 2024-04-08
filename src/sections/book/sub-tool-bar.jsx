@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
@@ -8,8 +10,8 @@ import UndoRedoControls from './undo-redo-controls';
 import ValidationCOntrols from './validation-controls';
 import BasicToolBarControls from './basic-tool-bar-controls';
 
-export default function SubToolBar() {
-  const theme = useTheme();
+export default function SubToolBar({ basicControls }) {
+  const theme = useTheme();console.log(basicControls)
 
   return (
     <Stack
@@ -23,7 +25,7 @@ export default function SubToolBar() {
         p: 0.3,
       }}>
       
-      <BasicToolBarControls/>
+      <BasicToolBarControls {...basicControls}/>
 
       <Divider orientation="vertical" flexItem />
 
@@ -46,4 +48,8 @@ export default function SubToolBar() {
     </Stack>
 
   );
+};
+
+SubToolBar.propTypes = {
+  basicControls: PropTypes.object,
 };
