@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useTheme } from '@emotion/react';
 
 import Input from '@mui/material/Input';
 import Stack from '@mui/material/Stack';
@@ -7,6 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
 
 export default function DocumentHeaderSection() {
+  const theme = useTheme();
+
   const [isFavourite, setFavourite] = useState(false);
   const [syncStatus, setSyncStatus] = useState('unsynced');
   const [count, setCount] = useState(0);
@@ -43,10 +46,10 @@ export default function DocumentHeaderSection() {
     <Stack direction="row" alignItems="center">
       <Input disableUnderline value="Untitled document" />
       <IconButton>
-        <Iconify icon={favouriteIcon} color="black" onClick={favouriteIconClicked} />
+        <Iconify icon={favouriteIcon} color={theme.palette.grey['700']} onClick={favouriteIconClicked} />
       </IconButton>
       <IconButton>
-        <Iconify icon={syncIcon} color="black" onClick={syncIconClicked} />
+        <Iconify icon={syncIcon} color={theme.palette.grey['700']} onClick={syncIconClicked} />
       </IconButton>
     </Stack>
   );

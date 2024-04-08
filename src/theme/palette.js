@@ -18,6 +18,7 @@ export const grey = {
 };
 
 export const primary = {
+  lightest: '#EDF2FA',
   lighter: '#D0ECFE',
   light: '#73BAFB',
   main: '#1877F2',
