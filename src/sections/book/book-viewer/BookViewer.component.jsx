@@ -76,7 +76,11 @@ export function BookViewer({ book, mainPageHeight }) {
           />
         </div>
       </Document>
-      <Pagination count={pdfPagesCount} onChange={(_, pageNumber) => goToPage({pageNumber})} ref={paginationRef} />
+      <Pagination
+        style={{ display: pdfPagesCount ? 'block' : 'none'}}
+        count={pdfPagesCount}
+        onChange={(_, pageNumber) => goToPage({ pageNumber })}
+        ref={paginationRef} />
     </div>
   );
 
