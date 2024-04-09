@@ -10,8 +10,12 @@ import Iconify from 'src/components/iconify';
 
 import SubToolBar from '../sub-tool-bar';
 import { BookViewer } from '../book-viewer/BookViewer.component';
+import { useBookStore, useBookStoreActions } from '../store/book-store';
 
 export default function BookView() {
+  const bookInTheStore = useBookStore((state) => state.bookName);
+  const bookStoreActions = useBookStoreActions();
+
   const [file, setFile] = useState(null);
   const [mainPageHeight, setMainPageHeight] = useState(0);
 
@@ -23,6 +27,14 @@ export default function BookView() {
     if (files && files[0]) {
       setFile(files[0]);
       setMainPageHeight(bookViewerRef.current.getBoundingClientRect().height);
+
+      // if the selected book is not the same as the one in the store
+      // then reset the store
+      // else do nothing
+      if (bookInTheStore !== files[0].name) {
+        bookStoreActions.reset();
+        bookStoreActions.addNewBook(files[0].name);
+      }
     }
   };
 
