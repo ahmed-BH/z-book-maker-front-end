@@ -32,6 +32,7 @@ export function BookViewer({ book, mainPageHeight }) {
   const onPageRenderSuccess = () => {
     const imageGetter = () => mainPageRef.current.toDataURL();
     bookStoreActions.setPage(currentPage, imageGetter);
+    bookStoreActions.setPageBoundingRect(mainPageRef.current.getBoundingClientRect());
   };
 
   useEffect(() => {
