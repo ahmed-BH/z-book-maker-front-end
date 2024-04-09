@@ -28,6 +28,13 @@ export default defineConfig({
   },
   server: {
     port: 3030,
+    proxy: {
+      '/ocr': {
+        target: 'http://localhost:5000/',
+        changeOrigin: true,
+        isSecure: false,
+      },
+    },
   },
   preview: {
     port: 3030,
