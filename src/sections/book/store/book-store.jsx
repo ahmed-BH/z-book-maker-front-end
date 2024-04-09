@@ -1,5 +1,5 @@
-import {v4 as uuid} from 'uuid';
 import { create } from 'zustand';
+import { v4 as uuid } from 'uuid';
 
 export const useBookStore = create((set) => ({
   bookId: null,
