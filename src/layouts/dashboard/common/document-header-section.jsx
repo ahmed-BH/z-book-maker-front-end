@@ -7,7 +7,10 @@ import IconButton from '@mui/material/IconButton';
 
 import Iconify from 'src/components/iconify';
 
+import { useBookStore } from '../../../sections/book/store/book-store';
+
 export default function DocumentHeaderSection() {
+  const bookInTheStore = useBookStore((state) => state.bookName);
   const theme = useTheme();
 
   const [isFavourite, setFavourite] = useState(false);
@@ -44,7 +47,7 @@ export default function DocumentHeaderSection() {
 
   return (
     <Stack direction="row" alignItems="center">
-      <Input disableUnderline value="Untitled document" />
+      <Input disableUnderline value={bookInTheStore} />
       <IconButton>
         <Iconify icon={favouriteIcon} color={theme.palette.grey['700']} onClick={favouriteIconClicked} />
       </IconButton>
