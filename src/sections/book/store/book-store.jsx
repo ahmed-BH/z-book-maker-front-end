@@ -4,13 +4,15 @@ import { create } from 'zustand';
 export const useBookStore = create((set) => ({
   bookId: null,
   bookName: '',
-  currentPageImage: null,
-  pagesTextBlocks: [],
+  page: {
+    pageNumber: 0,
+    imageGetter: () => null,
+    textBlocks: [],
+  },
   
   actions: {
-    reset: () => set({ pagesTextBlocks: [], currentPageImage: null, bookId: null }),
-    addPageTextBlock: (pageTextBlock) => set((state) => ({ pagesTextBlocks: state.pagesTextBlocks.concat([pageTextBlock]) })),
-    setCurrentPageImage: (currentPageImage) => set({ currentPageImage }),
+    reset: () => set({ page: { pageNumber: 0, imageGetter: () => null, textBlocks: [] }, bookId: null }),
+    setPage: (pageNumber, imageGetter, textBlocks=[]) => set(() => ({ page: { imageGetter, pageNumber, textBlocks } })),
     setBookName: (bookName) => set({ bookName }),
     generateBookId: () => set({ bookId: uuid() }),
     addNewBook: (bookName) => {
@@ -21,3 +23,4 @@ export const useBookStore = create((set) => ({
 }));
 
 export const useBookStoreActions = () => useBookStore((state) => state.actions);
+export const useBookPageStore = () => useBookStore((state) => state.page);
