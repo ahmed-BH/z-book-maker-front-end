@@ -9,12 +9,14 @@ import Typography from '@mui/material/Typography';
 import Iconify from 'src/components/iconify';
 
 import SubToolBar from '../sub-tool-bar';
+import { OCRAPI } from '../common/ocr-apis';
 import { BookViewer } from '../book-viewer/BookViewer.component';
-import { useBookStore, useBookStoreActions } from '../store/book-store';
+import { useBookStore, useBookPageStore, useBookStoreActions } from '../store/book-store';
 
 export default function BookView() {
   const bookInTheStore = useBookStore((state) => state.bookName);
   const bookStoreActions = useBookStoreActions();
+  const storedBookPage = useBookPageStore();
 
   const [file, setFile] = useState(null);
   const [mainPageHeight, setMainPageHeight] = useState(0);
@@ -41,6 +43,14 @@ export default function BookView() {
   const controls = {
     basicControls: {
       onClickNewFile: () => document.querySelector('input[type="file"]').click(),
+      onClickScan: () => {
+        const base64Image = storedBookPage.imageGetter();
+        OCRAPI.OCRImage(base64Image)
+          .then((result) => result.json())
+          .then((textBlocks) => {
+            bookStoreActions.setPageTextBlocks(textBlocks);
+          })
+      }
     }
   }
 

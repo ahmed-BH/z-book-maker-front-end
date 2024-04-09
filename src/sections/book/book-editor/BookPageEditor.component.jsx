@@ -1,4 +1,4 @@
-import { OCRUtils } from './common/ocr.utils';
+import { OCRUtils } from '../common/ocr-utils';
 import { useBookPageStore } from '../store/book-store';
 
 export default function BookPageEditor() {

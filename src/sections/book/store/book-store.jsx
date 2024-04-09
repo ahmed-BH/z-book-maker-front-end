@@ -13,6 +13,7 @@ export const useBookStore = create((set) => ({
   actions: {
     reset: () => set({ page: { pageNumber: 0, imageGetter: () => null, textBlocks: [] }, bookId: null }),
     setPage: (pageNumber, imageGetter, textBlocks=[]) => set(() => ({ page: { imageGetter, pageNumber, textBlocks } })),
+    setPageTextBlocks: (textBlocks) => set((state) => ({ page: { ...state.page, textBlocks } })),
     setBookName: (bookName) => set({ bookName }),
     generateBookId: () => set({ bookId: uuid() }),
     addNewBook: (bookName) => {

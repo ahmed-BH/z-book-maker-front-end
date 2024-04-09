@@ -8,6 +8,7 @@ import { Box, Pagination } from '@mui/material';
 
 import './BookViewer.component.css'
 import { HEIGHT_OF_THUMBNAIL } from './constants';
+import { useBookStoreActions } from '../store/book-store';
 
 
 export function BookViewer({ book, mainPageHeight }) {
@@ -19,11 +20,19 @@ export function BookViewer({ book, mainPageHeight }) {
   const [calculatedMainPageHeight, setCalculatedMainPageHeight] = useState(0);
 
   const paginationRef = useRef(null);
+  const mainPageRef = useRef(null);
+
+  const bookStoreActions = useBookStoreActions();
 
   const onPageLoadSuccess = () => {
     setCalculatedMainPageHeight(mainPageHeight - paginationRef.current.getBoundingClientRect().height - 10);
     setNumberOfThumbnails(Math.floor(calculatedMainPageHeight / (HEIGHT_OF_THUMBNAIL + 5)));
   }
+
+  const onPageRenderSuccess = () => {
+    const imageGetter = () => mainPageRef.current.toDataURL();
+    bookStoreActions.setPage(currentPage, imageGetter);
+  };
 
   useEffect(() => {
     if (paginationRef.current) {
@@ -69,6 +78,8 @@ export function BookViewer({ book, mainPageHeight }) {
         </div>
         <div className="book-viewer__page-viewer__main-page">
           <Page
+            canvasRef={mainPageRef}
+            onRenderSuccess={onPageRenderSuccess}
             height={calculatedMainPageHeight}
             pageNumber={currentPage}
             noData=""
