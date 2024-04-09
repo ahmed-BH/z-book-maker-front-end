@@ -11,7 +11,7 @@ import ValidationCOntrols from './validation-controls';
 import BasicToolBarControls from './basic-tool-bar-controls';
 
 export default function SubToolBar({ basicControls }) {
-  const theme = useTheme();console.log(basicControls)
+  const theme = useTheme();
 
   return (
     <Stack
