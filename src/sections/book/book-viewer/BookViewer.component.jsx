@@ -90,6 +90,7 @@ export function BookViewer({ book, mainPageHeight }) {
       <Pagination
         style={{ display: pdfPagesCount ? 'block' : 'none'}}
         count={pdfPagesCount}
+        page={currentPage}
         onChange={(_, pageNumber) => goToPage({ pageNumber })}
         ref={paginationRef} />
     </div>
