@@ -74,6 +74,11 @@ export default function BookView() {
           </Card>
         </Grid>
 
+        <BookSectionHighlighter
+          highlightAction={highlightAction}
+          container={storedBookPage.boundingClientRect}
+          textBlocks={storedBookPage.textBlocks} />
+
         <Grid item md={6} xl={6}>
           <Card sx={{ height: '100%' }}>
             <BookPageEditor/>

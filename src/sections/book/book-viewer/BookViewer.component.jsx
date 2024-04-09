@@ -7,8 +7,8 @@ import { Page, pdfjs, Document, Thumbnail } from 'react-pdf';
 import { Box, Pagination } from '@mui/material';
 
 import './BookViewer.component.css'
-import { HEIGHT_OF_THUMBNAIL } from './constants';
 import { useBookStoreActions } from '../store/book-store';
+import { HEIGHT_OF_THUMBNAIL } from '../../../utils/constants';
 
 
 export function BookViewer({ book, mainPageHeight }) {
