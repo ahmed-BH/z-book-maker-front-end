@@ -11,6 +11,7 @@ import Iconify from 'src/components/iconify';
 import SubToolBar from '../sub-tool-bar';
 import { OCRAPI } from '../common/ocr-apis';
 import { BookViewer } from '../book-viewer/BookViewer.component';
+import BookPageEditor from '../book-editor/BookPageEditor.component';
 import { useBookStore, useBookPageStore, useBookStoreActions } from '../store/book-store';
 
 export default function BookView() {
@@ -64,27 +65,18 @@ export default function BookView() {
         ref={inputRef} />
       <SubToolBar {...controls} />
 
-        <Button
-          onClick={() => document.querySelector('input[type="file"]').click()}
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="eva:plus-fill" />}>
-          New Book
-        </Button>
-      </Stack>
-
-      <Grid container spacing={3} sx={{ height: '100%' }}>
+      <Grid container spacing={1} sx={{ height: '100%', mt: 0.2 }}>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
           <Card sx={{ height: '100%' }} ref={bookViewerRef}>
             <BookViewer
-             book={file}
-             mainPageHeight={mainPageHeight}/>
+              book={file}
+              mainPageHeight={mainPageHeight} />
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+        <Grid item md={6} xl={6}>
           <Card sx={{ height: '100%' }}>
-            hello
+            <BookPageEditor/>
           </Card>
         </Grid>
       </Grid>
