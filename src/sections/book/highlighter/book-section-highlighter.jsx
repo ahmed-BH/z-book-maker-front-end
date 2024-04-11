@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import './Highlighter.component.css';
 import { PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
 
 export function BookSectionHighlighter({ highlightAction, container, textBlocks }) {
