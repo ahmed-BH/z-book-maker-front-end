@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useMemo, useState } from 'react';
 
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
@@ -10,11 +10,13 @@ import Iconify from 'src/components/iconify';
 
 import SubToolBar from '../sub-tool-bar';
 import { OCRAPI } from '../common/ocr-apis';
+import { OCRUtils } from '../common/ocr-utils';
+import ScanConfidenceStats from '../scan-confidence-stats';
 import { BookViewer } from '../book-viewer/BookViewer.component';
 import BookPageEditor from '../book-editor/BookPageEditor.component';
 import { BookSectionHighlighter } from '../highlighter/book-section-highlighter';
 import { useBookStore, useBookPageStore, useBookStoreActions } from '../store/book-store';
-import { LINE_HIGHLIGHTER_ACTION, WORD_HIGHLIGHTER_ACTION, PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
+import { confidanceColors, LINE_HIGHLIGHTER_ACTION, WORD_HIGHLIGHTER_ACTION, PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
 
 export default function BookView() {
   const bookInTheStore = useBookStore((state) => state.bookName);
@@ -65,6 +67,9 @@ export default function BookView() {
     }
   }
 
+  const linesStatsSeries = useMemo(() => OCRUtils.getLinesConfidenceStats(storedBookPage.textBlocks), [storedBookPage.textBlocks]);
+  const wordsStatsSeries = useMemo(() => OCRUtils.getWordsConfidenceStats(storedBookPage.textBlocks), [storedBookPage.textBlocks]);
+
   return (
     <Container maxWidth={false} sx={{ height: '100%' }}>
       <Input
@@ -93,6 +98,27 @@ export default function BookView() {
           <Card sx={{ height: '100%' }}>
             <BookPageEditor/>
           </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={2} lg={2} xl={2} direction="row" spacing={0}>
+          <Grid item xs={12} sm={6} md={12} mb={2}>
+            <ScanConfidenceStats
+              title="Confidance of lines"
+              chart={{
+                series: linesStatsSeries,
+                colors: confidanceColors,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={12} mb={2}>
+            <ScanConfidenceStats
+              title="Confidance of words"
+              chart={{
+                series: wordsStatsSeries,
+                colors: confidanceColors,
+              }}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </Container>
