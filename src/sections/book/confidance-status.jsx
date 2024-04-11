@@ -24,7 +24,7 @@ export default function ConfidanceStatus() {
 
 
   return pageConfidence ? (
-    <Tooltip title="Confidence of sscan">
+    <Tooltip title="Confidence of current scan">
       <Label
         variant="filled"
         color={color} >
@@ -33,7 +33,7 @@ export default function ConfidanceStatus() {
     </Tooltip>
   )
     : (
-      <Tooltip title="Confidence of sscan">
+      <Tooltip title="Confidence of current scan">
         <Iconify icon="f7:scope" />
       </Tooltip >
     );
