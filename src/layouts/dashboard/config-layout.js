@@ -10,4 +10,4 @@ export const NAV = {
   WIDTH: 280,
 };
 
-export const isNavFixed = true; 
+export const isNavFixed = false; 

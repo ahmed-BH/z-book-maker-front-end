@@ -1,12 +1,8 @@
 import { useRef, useMemo, useState } from 'react';
 
 import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
+import { Card, Grid } from '@mui/material';
 import Container from '@mui/material/Container';
-import { Card, Grid, Stack } from '@mui/material';
-import Typography from '@mui/material/Typography';
-
-import Iconify from 'src/components/iconify';
 
 import SubToolBar from '../sub-tool-bar';
 import { OCRAPI } from '../common/ocr-apis';
@@ -58,10 +54,10 @@ export default function BookView() {
           })
       },
       highlightOptions: [
-        { value: WORD_HIGHLIGHTER_ACTION, label: 'Words'},
-        { value: LINE_HIGHLIGHTER_ACTION, label: 'Lines'},
-        { value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs'},
-        { value: '', label: 'None'},
+        { value: WORD_HIGHLIGHTER_ACTION, label: 'Words' },
+        { value: LINE_HIGHLIGHTER_ACTION, label: 'Lines' },
+        { value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs' },
+        { value: '', label: 'None' },
       ],
       onClickHighlight: (highlightOption) => setHighlightAction(highlightOption),
     }
@@ -94,9 +90,9 @@ export default function BookView() {
           container={storedBookPage.boundingClientRect}
           textBlocks={storedBookPage.textBlocks} />
 
-        <Grid item md={6} xl={6}>
+        <Grid item md={4} xl={4}>
           <Card sx={{ height: '100%' }}>
-            <BookPageEditor/>
+            <BookPageEditor />
           </Card>
         </Grid>
 
