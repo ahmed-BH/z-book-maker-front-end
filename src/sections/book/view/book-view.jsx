@@ -12,6 +12,8 @@ import SubToolBar from '../sub-tool-bar';
 import { OCRAPI } from '../common/ocr-apis';
 import { BookViewer } from '../book-viewer/BookViewer.component';
 import BookPageEditor from '../book-editor/BookPageEditor.component';
+import { PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
+import { BookSectionHighlighter } from '../highlighter/book-section-highlighter';
 import { useBookStore, useBookPageStore, useBookStoreActions } from '../store/book-store';
 
 export default function BookView() {
@@ -51,7 +53,10 @@ export default function BookView() {
           .then((textBlocks) => {
             bookStoreActions.setPageTextBlocks(textBlocks);
           })
-      }
+      },
+      onClickHighlight: () => {
+        setHighlightAction((prevAction) => prevAction === PARAGRAPHIGH_HLIGHTER_ACTION ? '' : PARAGRAPHIGH_HLIGHTER_ACTION);
+      },
     }
   }
 
