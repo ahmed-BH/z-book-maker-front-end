@@ -5,7 +5,9 @@ import IconButton from '@mui/material/IconButton';
 
 import Iconify from 'src/components/iconify';
 
-export default function BasicToolBarControls({ onClickNewFile, onClickScan, onClickHighlight }) {
+import ButtonAsSelect from './button-as-select';
+
+export default function BasicToolBarControls({ onClickNewFile, onClickScan, onClickHighlight, highlightOptions = [] }) {
   const theme = useTheme();
 
   return (
@@ -16,9 +18,10 @@ export default function BasicToolBarControls({ onClickNewFile, onClickScan, onCl
       <IconButton onClick={onClickScan}>
         <Iconify icon="fluent:scan-text-28-filled" color={theme.palette.grey['700']} />
       </IconButton>
-      <IconButton onClick={onClickHighlight}>
-        <Iconify icon="tabler:paint" color={theme.palette.grey['700']} />
-      </IconButton>
+      <ButtonAsSelect
+        onItemSelected={onClickHighlight}
+        menuItems={highlightOptions}
+        startIcon={<Iconify icon="tabler:paint" color={theme.palette.grey['700']} />} />
     </>
   );
 };
@@ -27,4 +30,5 @@ BasicToolBarControls.propTypes = {
   onClickNewFile: PropTypes.func,
   onClickScan: PropTypes.func,
   onClickHighlight: PropTypes.func,
+  highlightOptions: PropTypes.array,
 };

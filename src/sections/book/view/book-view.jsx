@@ -23,6 +23,7 @@ export default function BookView() {
 
   const [file, setFile] = useState(null);
   const [mainPageHeight, setMainPageHeight] = useState(0);
+  const [highlightAction, setHighlightAction] = useState(null);
 
   const bookViewerRef = useRef(null);
   const inputRef = useRef(null);
@@ -54,8 +55,9 @@ export default function BookView() {
             bookStoreActions.setPageTextBlocks(textBlocks);
           })
       },
-      onClickHighlight: () => {
-        setHighlightAction((prevAction) => prevAction === PARAGRAPHIGH_HLIGHTER_ACTION ? '' : PARAGRAPHIGH_HLIGHTER_ACTION);
+      highlightOptions: [{ value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs'}],
+      onClickHighlight: (highlightOption) => {
+        setHighlightAction((prevAction) => prevAction === highlightOption ? '' : highlightOption);
       },
     }
   }
