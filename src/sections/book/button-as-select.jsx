@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import Menu from '@mui/material/Menu';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { listClasses } from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
 
-export default function ButtonAsSelect({ menuItems, startIcon, onItemSelected }) {
+export default function ButtonAsSelect({ menuItems, startIcon, onItemSelected, tooltipText = ''}) {
   const [open, setOpen] = useState(null);
   const [selectedItem, setSelectedItem] = useState(menuItems.find((item) => item.isSelected));
 
@@ -26,6 +27,7 @@ export default function ButtonAsSelect({ menuItems, startIcon, onItemSelected })
 
   return (
     <>
+    <Tooltip title={tooltipText}>
       <Button
         disableRipple
         color="inherit"
@@ -42,6 +44,7 @@ export default function ButtonAsSelect({ menuItems, startIcon, onItemSelected })
           </Typography>
         </Stack>
       </Button>
+    </Tooltip>
 
       <Menu
         open={!!open}
@@ -73,5 +76,6 @@ ButtonAsSelect.propTypes = {
   menuItems: PropTypes.array,
   startIcon: PropTypes.element,
   onItemSelected: PropTypes.func,
+  tooltipText: PropTypes.string,
 };
 

@@ -19,6 +19,7 @@ export default function BasicToolBarControls({ onClickNewFile, onClickScan, onCl
         <Iconify icon="fluent:scan-text-28-filled" color={theme.palette.grey['700']} />
       </IconButton>
       <ButtonAsSelect
+        tooltipText='Highlight mode'
         onItemSelected={onClickHighlight}
         menuItems={highlightOptions}
         startIcon={<Iconify icon="tabler:paint" color={theme.palette.grey['700']} />} />
