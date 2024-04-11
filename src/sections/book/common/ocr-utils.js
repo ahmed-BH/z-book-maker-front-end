@@ -10,4 +10,18 @@ export class OCRUtils {
     });
     return lines;
   }
+
+  static flattenParagraphWords(textBlocks) {
+    const words = [];
+    textBlocks.forEach((block) => {
+      block.paragraphs.forEach((paragraph) => {
+        paragraph.lines.forEach((line) => {
+          line.words.forEach((word) => {
+            words.push(word);
+          })
+        })
+      })
+    });
+    return words;
+  }
 };

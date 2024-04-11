@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { OCRUtils } from '../common/ocr-utils';
 import { error, success, warning } from '../../../theme/palette';
-import { LINE_HIGHLIGHTER_ACTION, PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
+import { LINE_HIGHLIGHTER_ACTION, WORD_HIGHLIGHTER_ACTION, PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
 
 const confidanceToColorMap = [
   { check: (confidance) => confidance < 70  , color: error.darker },
@@ -41,6 +41,9 @@ export function BookSectionHighlighter({ highlightAction, container, textBlocks 
     } else if (highlightAction === LINE_HIGHLIGHTER_ACTION) {
       const lines = OCRUtils.flattenParagraphLines(textBlocks)
       sections = lines.map((line) => (<div style={getRectangle(line, container)} />));
+    } else if (highlightAction === WORD_HIGHLIGHTER_ACTION) {
+      const words = OCRUtils.flattenParagraphWords(textBlocks)
+      sections = words.map((word) => (<div style={getRectangle(word, container)} />));
     }
     return sections;
   }, [highlightAction, textBlocks, container]);

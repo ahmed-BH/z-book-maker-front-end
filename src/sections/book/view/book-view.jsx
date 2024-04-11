@@ -12,9 +12,9 @@ import SubToolBar from '../sub-tool-bar';
 import { OCRAPI } from '../common/ocr-apis';
 import { BookViewer } from '../book-viewer/BookViewer.component';
 import BookPageEditor from '../book-editor/BookPageEditor.component';
-import { PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
 import { BookSectionHighlighter } from '../highlighter/book-section-highlighter';
 import { useBookStore, useBookPageStore, useBookStoreActions } from '../store/book-store';
+import { LINE_HIGHLIGHTER_ACTION, WORD_HIGHLIGHTER_ACTION, PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
 
 export default function BookView() {
   const bookInTheStore = useBookStore((state) => state.bookName);
@@ -56,6 +56,7 @@ export default function BookView() {
           })
       },
       highlightOptions: [
+        { value: WORD_HIGHLIGHTER_ACTION, label: 'Words'},
         { value: LINE_HIGHLIGHTER_ACTION, label: 'Lines'},
         { value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs'},
         { value: '', label: 'None'},
