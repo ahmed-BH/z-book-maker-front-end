@@ -1,14 +1,40 @@
-import { useTheme } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
+import { useMemo } from 'react';
 
+import Tooltip from '@mui/material/Tooltip';
+
+import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
-export default function ConfidanceStatus() {
-  const theme = useTheme();
+import { useBookPageStore } from './store/book-store';
 
-  return (
-    <IconButton>
-      <Iconify icon="mdi:content-save-check-outline" color={theme.palette.grey['700']} />
-    </IconButton>
+const ConfidanceStatusColorMapping = [
+  { check: (confidence) => confidence < 50, color: 'error' },
+  { check: (confidence) => confidence < 70, color: 'warning' },
+  { check: (confidence) => confidence < 90, color: 'info' },
+  { check: (confidence) => confidence <= 100, color: 'success' },
+];
+
+export default function ConfidanceStatus() {
+  const storedPage = useBookPageStore();
+
+  const pageConfidence = useMemo(() => Math.ceil(storedPage.textBlocks[0]?.confidence), [storedPage.textBlocks]);
+  const color = useMemo(() => ConfidanceStatusColorMapping.find(({ check }) => check(pageConfidence))?.color || 'info',
+    [pageConfidence]
   );
+
+
+  return pageConfidence ? (
+    <Tooltip title="Confidence of sscan">
+      <Label
+        variant="filled"
+        color={color} >
+        <Iconify icon="f7:scope" />&nbsp; {pageConfidence}%
+      </Label>
+    </Tooltip>
+  )
+    : (
+      <Tooltip title="Confidence of sscan">
+        <Iconify icon="f7:scope" />
+      </Tooltip >
+    );
 };
