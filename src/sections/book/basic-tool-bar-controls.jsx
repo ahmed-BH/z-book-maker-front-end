@@ -19,7 +19,9 @@ export default function BasicToolBarControls({ onClickNewFile, onClickScan, onCl
         </Tooltip>
       </IconButton>
       <IconButton onClick={onClickScan}>
-        <Iconify icon="fluent:scan-text-28-filled" color={theme.palette.grey['700']} />
+        <Tooltip title="Scan current file">
+          <Iconify icon="fluent:scan-text-28-filled" color={theme.palette.grey['700']} />
+        </Tooltip>
       </IconButton>
       <ButtonAsSelect
         tooltipText='Highlight mode'
