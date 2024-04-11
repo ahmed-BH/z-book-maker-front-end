@@ -56,6 +56,7 @@ export default function BookView() {
           })
       },
       highlightOptions: [
+        { value: LINE_HIGHLIGHTER_ACTION, label: 'Lines'},
         { value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs'},
         { value: '', label: 'None'},
       ],

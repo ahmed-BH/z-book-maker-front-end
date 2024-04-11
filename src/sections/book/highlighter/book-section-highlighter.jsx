@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
+import { OCRUtils } from '../common/ocr-utils';
+import { LINE_HIGHLIGHTER_ACTION, PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
 
 export function BookSectionHighlighter({ highlightAction, container, textBlocks }) {
 
@@ -24,11 +25,15 @@ export function BookSectionHighlighter({ highlightAction, container, textBlocks 
   };
 
   const highlightedSections = useMemo(() => {
+    let sections = []
     if (highlightAction === PARAGRAPHIGH_HLIGHTER_ACTION) {
       const paragraphs = textBlocks[0]?.paragraphs || [];
-      return paragraphs.map((paragraph) => (<div style={getRectangle(paragraph, container)}/>));
+      sections = paragraphs.map((paragraph) => (<div style={getRectangle(paragraph, container)} />));
+    } else if (highlightAction === LINE_HIGHLIGHTER_ACTION) {
+      const lines = OCRUtils.flattenParagraphLines(textBlocks)
+      sections = lines.map((line) => (<div style={getRectangle(line, container)} />));
     }
-    return [];
+    return sections;
   }, [highlightAction, textBlocks, container]);
 
   return (
