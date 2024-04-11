@@ -2,23 +2,32 @@ import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { OCRUtils } from '../common/ocr-utils';
+import { error, success, warning } from '../../../theme/palette';
 import { LINE_HIGHLIGHTER_ACTION, PARAGRAPHIGH_HLIGHTER_ACTION } from '../../../utils/constants';
+
+const confidanceToColorMap = [
+  { check: (confidance) => confidance < 70  , color: error.darker },
+  { check: (confidance) => confidance < 80  , color: error.main },
+  { check: (confidance) => confidance < 90  , color: warning.main },
+  { check: (confidance) => confidance <= 100 , color: success.main},
+]
 
 export function BookSectionHighlighter({ highlightAction, container, textBlocks }) {
 
-  const getRectangle = ({ bbox }, margin, clazz) => {
+  const getRectangle = ({ bbox, confidence }, margin, clazz) => {
     const { x0, x1, y0, y1 } = bbox || {};
     const width = x1 - x0;
     const height = y1 - y0;
     const rect = document.createElement('div');
     rect.setAttribute('class', clazz);
+    const backgroundColor = confidanceToColorMap.find(({ check }) => check(confidence))?.color || error.main;
     return {
       left: `${margin.x + x0}px`,
       top: `${margin.y + y0}px`,
       height: `${height}px`,
       width: `${width}px`,
       position: 'absolute',
-      backgroundColor: 'blue',
+      backgroundColor,
       opacity: '0.5'
     }
 
