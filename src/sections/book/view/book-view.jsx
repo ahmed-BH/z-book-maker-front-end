@@ -55,7 +55,10 @@ export default function BookView() {
             bookStoreActions.setPageTextBlocks(textBlocks);
           })
       },
-      highlightOptions: [{ value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs'}],
+      highlightOptions: [
+        { value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs'},
+        { value: '', label: 'None'},
+      ],
       onClickHighlight: (highlightOption) => {
         setHighlightAction((prevAction) => prevAction === highlightOption ? '' : highlightOption);
       },

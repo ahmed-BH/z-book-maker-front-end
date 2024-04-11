@@ -12,14 +12,16 @@ import Iconify from 'src/components/iconify';
 
 export default function ButtonAsSelect({ menuItems, startIcon, onItemSelected }) {
   const [open, setOpen] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(menuItems.find((item) => item.isSelected));
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
-  const onClickMenuItem = (selectedOption) => {
+  const onClickMenuItem = (item) => {
     setOpen(null);
-    onItemSelected(selectedOption);
+    onItemSelected(item.value);
+    setSelectedItem(item);
   };
 
   return (
@@ -36,7 +38,7 @@ export default function ButtonAsSelect({ menuItems, startIcon, onItemSelected })
           spacing={1}>
           {startIcon}
           <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-            Newest
+            {selectedItem?.label || 'None'}
           </Typography>
         </Stack>
       </Button>
@@ -58,7 +60,7 @@ export default function ButtonAsSelect({ menuItems, startIcon, onItemSelected })
         }}
       >
         {menuItems.map((option) => (
-          <MenuItem key={option.value} selected={option.value === 'newest'} onClick={() => onClickMenuItem(option.value) }>
+          <MenuItem key={option.value} selected={option.value === selectedItem?.value} onClick={() => onClickMenuItem(option) }>
             {option.label}
           </MenuItem>
         ))}
