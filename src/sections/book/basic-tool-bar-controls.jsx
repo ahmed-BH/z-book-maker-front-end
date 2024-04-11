@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 
@@ -13,7 +14,9 @@ export default function BasicToolBarControls({ onClickNewFile, onClickScan, onCl
   return (
     <>
       <IconButton onClick={onClickNewFile}>
-        <Iconify icon="fluent:quiz-new-24-regular" color={theme.palette.grey['700']} />
+        <Tooltip title="New file">
+          <Iconify icon="fluent:quiz-new-24-regular" color={theme.palette.grey['700']} />
+        </Tooltip>
       </IconButton>
       <IconButton onClick={onClickScan}>
         <Iconify icon="fluent:scan-text-28-filled" color={theme.palette.grey['700']} />
