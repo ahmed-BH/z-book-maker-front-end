@@ -59,9 +59,7 @@ export default function BookView() {
         { value: PARAGRAPHIGH_HLIGHTER_ACTION, label: 'Paragraphs'},
         { value: '', label: 'None'},
       ],
-      onClickHighlight: (highlightOption) => {
-        setHighlightAction((prevAction) => prevAction === highlightOption ? '' : highlightOption);
-      },
+      onClickHighlight: (highlightOption) => setHighlightAction(highlightOption),
     }
   }
 
