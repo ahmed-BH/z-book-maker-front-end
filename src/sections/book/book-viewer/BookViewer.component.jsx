@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import React, { useRef, useState, useEffect } from 'react';
 import { Page, pdfjs, Document, Thumbnail } from 'react-pdf';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 
 import { Box, Pagination } from '@mui/material';
 
@@ -14,7 +14,7 @@ import { HEIGHT_OF_THUMBNAIL } from '../../../utils/constants';
 export function BookViewer({ book, mainPageHeight }) {
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [numberOfThumbnails, setNumberOfThumbnails] = useState(0);
   const [pdfPagesCount, setPDFPagesCount] = useState(0);
   const [calculatedMainPageHeight, setCalculatedMainPageHeight] = useState(0);
@@ -47,7 +47,28 @@ export function BookViewer({ book, mainPageHeight }) {
 
   const onPDFLoadSuccess = ({ numPages }) => {
     setPDFPagesCount(numPages);
+    setCurrentPage(1);
   }
+
+  const listOfThumbnails = useMemo(() =>
+    Array.from(new Array(Math.min(numberOfThumbnails, pdfPagesCount - currentPage)), (_, i) => (
+      <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" key={i}>
+        <Thumbnail
+          pageNumber={currentPage + i + 1}
+          noData=""
+          height={HEIGHT_OF_THUMBNAIL}
+          onItemClick={goToPage}
+        />
+        <Box
+          color="gray.500"
+          fontWeight="semibold"
+          letterSpacing="wide"
+          fontSize="xs"
+          ml="2">
+          {currentPage + i + 1}
+        </Box>
+      </Box>
+    )), [currentPage, numberOfThumbnails, pdfPagesCount]);
 
   return (
     <div className="book-viewer">
@@ -56,26 +77,7 @@ export function BookViewer({ book, mainPageHeight }) {
         onLoadSuccess={onPDFLoadSuccess}
         noData="">
         <div className='book-viewer__page-viewer__thumbnails'>
-          {
-            Array.from(new Array(numberOfThumbnails), (_, i) => (
-              <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" key={i}>
-                <Thumbnail
-                  pageNumber={currentPage + i + 1}
-                  noData=""
-                  height={HEIGHT_OF_THUMBNAIL}
-                  onItemClick={goToPage}
-                />
-                <Box
-                  color="gray.500"
-                  fontWeight="semibold"
-                  letterSpacing="wide"
-                  fontSize="xs"
-                  ml="2">
-                  {currentPage + i + 1}
-                </Box>
-              </Box>
-            ))
-          }
+          { listOfThumbnails }
         </div>
         <div className="book-viewer__page-viewer__main-page">
           <Page
@@ -89,7 +91,7 @@ export function BookViewer({ book, mainPageHeight }) {
         </div>
       </Document>
       <Pagination
-        style={{ display: pdfPagesCount ? 'block' : 'none'}}
+        style={{ display: pdfPagesCount ? 'block' : 'none' }}
         count={pdfPagesCount}
         page={currentPage}
         onChange={(_, pageNumber) => goToPage({ pageNumber })}
