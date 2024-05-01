@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 import Tooltip from '@mui/material/Tooltip';
 
@@ -14,7 +15,7 @@ const ConfidanceStatusColorMapping = [
   { check: (confidence) => confidence <= 100, color: 'success' },
 ];
 
-export default function ConfidanceStatus() {
+export default function ConfidanceStatus({ onClick }) {
   const storedPage = useBookPageStore();
 
   const pageConfidence = useMemo(() => Math.ceil(storedPage.textBlocks[0]?.confidence), [storedPage.textBlocks]);
@@ -26,6 +27,7 @@ export default function ConfidanceStatus() {
   return pageConfidence ? (
     <Tooltip title="Confidence of current scan">
       <Label
+        onClick={onClick}
         variant="filled"
         color={color} >
         <Iconify icon="f7:scope" />&nbsp; {pageConfidence}%
@@ -37,4 +39,8 @@ export default function ConfidanceStatus() {
         <Iconify icon="f7:scope" />
       </Tooltip >
     );
+};
+
+ConfidanceStatus.propTypes = {
+  onClick: PropTypes.func,
 };

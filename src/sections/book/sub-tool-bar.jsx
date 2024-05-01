@@ -10,7 +10,7 @@ import UndoRedoControls from './undo-redo-controls';
 import ValidationCOntrols from './validation-controls';
 import BasicToolBarControls from './basic-tool-bar-controls';
 
-export default function SubToolBar({ basicControls }) {
+export default function SubToolBar({ basicControls, onClickShowConfidenceStats }) {
   const theme = useTheme();
 
   return (
@@ -33,7 +33,7 @@ export default function SubToolBar({ basicControls }) {
 
       <Divider orientation="vertical" flexItem />
       
-      <ConfidanceStatus/>
+      <ConfidanceStatus onClick={onClickShowConfidenceStats}/>
 
       <Divider orientation="vertical" flexItem />
 
@@ -52,4 +52,5 @@ export default function SubToolBar({ basicControls }) {
 
 SubToolBar.propTypes = {
   basicControls: PropTypes.object,
+  onClickShowConfidenceStats: PropTypes.func,
 };

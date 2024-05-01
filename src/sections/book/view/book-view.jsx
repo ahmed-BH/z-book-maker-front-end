@@ -22,6 +22,10 @@ export default function BookView() {
   const [file, setFile] = useState(null);
   const [mainPageHeight, setMainPageHeight] = useState(0);
   const [highlightAction, setHighlightAction] = useState(null);
+  const [showConfidenceStats, setShowConfidenceStats] = useState(false);
+  const editorGrid = useMemo(() => showConfidenceStats ? { md: 4, xl: 4 } : { md: 6, xl: 6 },
+    [showConfidenceStats]
+  );
 
   const bookViewerRef = useRef(null);
   const inputRef = useRef(null);
@@ -60,7 +64,8 @@ export default function BookView() {
         { value: '', label: 'None' },
       ],
       onClickHighlight: (highlightOption) => setHighlightAction(highlightOption),
-    }
+    },
+    onClickShowConfidenceStats: () => setShowConfidenceStats((prev) => !prev),
   }
 
   const linesStatsSeries = useMemo(() => OCRUtils.getLinesConfidenceStats(storedBookPage.textBlocks), [storedBookPage.textBlocks]);
@@ -70,7 +75,7 @@ export default function BookView() {
   const editorSectionRef = useRef(null);
   const [editorSectionWidth, setEditorSectionWidth] = useState(0);
   const [editorSectionHeight, setEditorSectionHeight] = useState(0);
-  
+
   useEffect(() => {
     const width = Math.floor(editorSectionRef.current.getBoundingClientRect().width) - 8; // 8 is the padding left
     setEditorSectionWidth(width);
@@ -102,32 +107,35 @@ export default function BookView() {
           container={storedBookPage.boundingClientRect}
           textBlocks={storedBookPage.textBlocks} />
 
-        <Grid item md={4} xl={4}>
+        <Grid item {...editorGrid}>
           <Card sx={{ height: '100%' }} ref={editorSectionRef}>
             <BookPageEditor width={editorSectionWidth} height={editorSectionHeight} />
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-          <Grid item xs={12} sm={6} md={12} mb={2}>
-            <ScanConfidenceStats
-              title="Confidance of lines"
-              chart={{
-                series: linesStatsSeries,
-                colors: confidanceColors,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={12} mb={2}>
-            <ScanConfidenceStats
-              title="Confidance of words"
-              chart={{
-                series: wordsStatsSeries,
-                colors: confidanceColors,
-              }}
-            />
-          </Grid>
-        </Grid>
+        { showConfidenceStats ? (
+          <Grid item md={2} xl={2}>
+            <Grid item xs={12} sm={6} md={12} mb={2}>
+              <ScanConfidenceStats
+                title="Confidance of lines"
+                chart={{
+                  series: linesStatsSeries,
+                  colors: confidanceColors,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={12} mb={2}>
+              <ScanConfidenceStats
+                title="Confidance of words"
+                chart={{
+                  series: wordsStatsSeries,
+                  colors: confidanceColors,
+                }}
+              />
+            </Grid>
+          </Grid>)
+          : null
+        }
       </Grid>
     </Container>
   );
