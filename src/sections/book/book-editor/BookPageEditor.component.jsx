@@ -12,26 +12,30 @@ export default function BookPageEditor({ width, height }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    fabricRef.current = new fabric.Canvas(canvasRef.current);
-  }, [width, height]);
-
-  useEffect(() => {
-    if (fabricRef.current) {
-      fabricRef.current.clear();
-      OCRUtils.flattenParagraphLines(storedBookPage.textBlocks)
-        .forEach((line) =>
-          fabricRef.current.add(new fabric.Textbox(line.text,
-            {
-              left: line.bbox.x0, top: line.bbox.y0, textAlign: 'right', fontSize: 13,
-              width: line.bbox.x1 - line.bbox.x0 + 10, height: line.bbox.y1 - line.bbox.y0
-            }
-
-          )))
+    if (!width || !height) {
+      return;
     }
-  }, [storedBookPage.textBlocks]);
+    if (!fabricRef.current) {
+      fabricRef.current = new fabric.Canvas(canvasRef.current);
+    }
+    fabricRef.current.clear();
+    const marginX = 10;
+    OCRUtils.flattenParagraphLines(storedBookPage.textBlocks)
+      .forEach((line) =>
+        fabricRef.current.add(new fabric.Textbox(line.text,
+          {
+            left: marginX, top: line.bbox.y0, textAlign: 'right', fontSize: 13,
+            width: width - marginX * 2, height: line.bbox.y1 - line.bbox.y0,
+          }
+
+        ))
+      );
+
+  }, [storedBookPage.textBlocks, width, height]);
 
   return width && height ? (
     <canvas
+      style={{ marginTop: '5px' }}
       ref={canvasRef}
       width={width}
       height={height} />

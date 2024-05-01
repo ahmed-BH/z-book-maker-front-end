@@ -23,12 +23,16 @@ export default function BookView() {
   const [mainPageHeight, setMainPageHeight] = useState(0);
   const [highlightAction, setHighlightAction] = useState(null);
   const [showConfidenceStats, setShowConfidenceStats] = useState(false);
+  const [editorSectionWidth, setEditorSectionWidth] = useState(0);
+  const [editorSectionHeight, setEditorSectionHeight] = useState(0);
+
   const editorGrid = useMemo(() => showConfidenceStats ? { md: 4, xl: 4 } : { md: 6, xl: 6 },
     [showConfidenceStats]
   );
 
   const bookViewerRef = useRef(null);
   const inputRef = useRef(null);
+  const editorSectionRef = useRef(null);
 
   const fileChanged = (event) => {
     const { files } = event.target || {};
@@ -44,6 +48,13 @@ export default function BookView() {
         bookStoreActions.addNewBook(files[0].name);
       }
     }
+  };
+
+  const setEditorDimensions = () => {
+    const width = Math.floor(editorSectionRef.current.getBoundingClientRect().width) - 8; // 8 is the padding left
+    setEditorSectionWidth(width);
+    const height = Math.floor(editorSectionRef.current.getBoundingClientRect().height) - 8; // 8 is the padding top
+    setEditorSectionHeight(height);
   };
 
   const controls = {
@@ -65,22 +76,18 @@ export default function BookView() {
       ],
       onClickHighlight: (highlightOption) => setHighlightAction(highlightOption),
     },
-    onClickShowConfidenceStats: () => setShowConfidenceStats((prev) => !prev),
+    onClickShowConfidenceStats: () => {
+      setShowConfidenceStats((prev) => !prev);
+      setEditorDimensions();
+    }
   }
 
   const linesStatsSeries = useMemo(() => OCRUtils.getLinesConfidenceStats(storedBookPage.textBlocks), [storedBookPage.textBlocks]);
   const wordsStatsSeries = useMemo(() => OCRUtils.getWordsConfidenceStats(storedBookPage.textBlocks), [storedBookPage.textBlocks]);
 
   /* editor setup section */
-  const editorSectionRef = useRef(null);
-  const [editorSectionWidth, setEditorSectionWidth] = useState(0);
-  const [editorSectionHeight, setEditorSectionHeight] = useState(0);
-
   useEffect(() => {
-    const width = Math.floor(editorSectionRef.current.getBoundingClientRect().width) - 8; // 8 is the padding left
-    setEditorSectionWidth(width);
-    const height = Math.floor(editorSectionRef.current.getBoundingClientRect().height) - 8; // 8 is the padding top
-    setEditorSectionHeight(height);
+    setEditorDimensions();
   }, []);
 
   return (
