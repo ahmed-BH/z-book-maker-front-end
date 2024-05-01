@@ -48,11 +48,11 @@ export default function DocumentHeaderSection() {
   return (
     <Stack direction="row" alignItems="center">
       <Input disableUnderline value={bookInTheStore} />
-      <IconButton>
-        <Iconify icon={favouriteIcon} color={theme.palette.grey['700']} onClick={favouriteIconClicked} />
+      <IconButton onClick={favouriteIconClicked}>
+        <Iconify icon={favouriteIcon} color={theme.palette.grey['700']} />
       </IconButton>
-      <IconButton>
-        <Iconify icon={syncIcon} color={theme.palette.grey['700']} onClick={syncIconClicked} />
+      <IconButton onClick={syncIconClicked}>
+        <Iconify icon={syncIcon} color={theme.palette.grey['700']} />
       </IconButton>
     </Stack>
   );
