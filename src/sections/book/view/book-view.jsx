@@ -108,7 +108,7 @@ export default function BookView() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={2} lg={2} xl={2} direction="row" spacing={0}>
+        <Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
           <Grid item xs={12} sm={6} md={12} mb={2}>
             <ScanConfidenceStats
               title="Confidance of lines"
