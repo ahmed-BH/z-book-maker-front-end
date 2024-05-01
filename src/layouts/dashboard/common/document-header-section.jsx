@@ -47,7 +47,7 @@ export default function DocumentHeaderSection() {
 
   return (
     <Stack direction="row" alignItems="center">
-      <Input disableUnderline value={bookInTheStore} />
+      <Input disableUnderline value={bookInTheStore} inputProps={{ dir: 'rtl'}} />
       <IconButton onClick={favouriteIconClicked}>
         <Iconify icon={favouriteIcon} color={theme.palette.grey['700']} />
       </IconButton>
