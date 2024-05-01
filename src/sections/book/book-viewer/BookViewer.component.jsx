@@ -29,7 +29,7 @@ export function BookViewer({ book, mainPageHeight }) {
 
   const onPageLoadSuccess = () => {
     setCalculatedMainPageHeight(mainPageHeight - paginationRef.current.getBoundingClientRect().height - 10);
-    setNumberOfThumbnails(Math.floor(calculatedMainPageHeight / (HEIGHT_OF_THUMBNAIL + 5)));
+    setNumberOfThumbnails(Math.floor(calculatedMainPageHeight / (HEIGHT_OF_THUMBNAIL )));
   }
 
   const onPageRenderSuccess = () => {

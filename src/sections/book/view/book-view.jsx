@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 
 import Input from '@mui/material/Input';
 import { Card, Grid } from '@mui/material';
@@ -66,6 +66,18 @@ export default function BookView() {
   const linesStatsSeries = useMemo(() => OCRUtils.getLinesConfidenceStats(storedBookPage.textBlocks), [storedBookPage.textBlocks]);
   const wordsStatsSeries = useMemo(() => OCRUtils.getWordsConfidenceStats(storedBookPage.textBlocks), [storedBookPage.textBlocks]);
 
+  /* editor setup section */
+  const editorSectionRef = useRef(null);
+  const [editorSectionWidth, setEditorSectionWidth] = useState(0);
+  const [editorSectionHeight, setEditorSectionHeight] = useState(0);
+  
+  useEffect(() => {
+    const width = Math.floor(editorSectionRef.current.getBoundingClientRect().width) - 8; // 8 is the padding left
+    setEditorSectionWidth(width);
+    const height = Math.floor(editorSectionRef.current.getBoundingClientRect().height) - 8; // 8 is the padding top
+    setEditorSectionHeight(height);
+  }, []);
+
   return (
     <Container maxWidth={false} sx={{ height: '100%' }}>
       <Input
@@ -91,8 +103,8 @@ export default function BookView() {
           textBlocks={storedBookPage.textBlocks} />
 
         <Grid item md={4} xl={4}>
-          <Card sx={{ height: '100%' }}>
-            <BookPageEditor />
+          <Card sx={{ height: '100%' }} ref={editorSectionRef}>
+            <BookPageEditor width={editorSectionWidth} height={editorSectionHeight} />
           </Card>
         </Grid>
 
