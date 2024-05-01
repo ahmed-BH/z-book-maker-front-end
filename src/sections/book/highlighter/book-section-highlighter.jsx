@@ -32,8 +32,8 @@ export function BookSectionHighlighter({ highlightAction, container, textBlocks 
     let sections = []
     if (highlightAction === PARAGRAPHIGH_HLIGHTER_ACTION) {
       const paragraphs = textBlocks[0]?.paragraphs || [];
-      sections = paragraphs.map((paragraph) => (
-        <Tooltip followCursor title={`${Math.ceil(paragraph.confidence)}%`}>
+      sections = paragraphs.map((paragraph, i) => (
+        <Tooltip followCursor title={`${Math.ceil(paragraph.confidence)}%`} key={i}>
           <div style={getRectangle(paragraph, container)} />
         </Tooltip>
       ));
