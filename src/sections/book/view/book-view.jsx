@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import SubToolBar from '../sub-tool-bar';
 import { OCRAPI } from '../common/ocr-apis';
 import { OCRUtils } from '../common/ocr-utils';
+import BookInfoFiller from '../book-info-filler';
 import ScanConfidenceStats from '../scan-confidence-stats';
 import { BookViewer } from '../book-viewer/BookViewer.component';
 import BookPageEditor from '../book-editor/BookPageEditor.component';
@@ -25,6 +26,7 @@ export default function BookView() {
   const [showConfidenceStats, setShowConfidenceStats] = useState(false);
   const [editorSectionWidth, setEditorSectionWidth] = useState(0);
   const [editorSectionHeight, setEditorSectionHeight] = useState(0);
+  const [isBookInfoFillerOpen, setIsBookInfoFillerOpen] = useState(false);
 
   const editorGrid = useMemo(() => showConfidenceStats ? { md: 4, xl: 4 } : { md: 6, xl: 6 },
     [showConfidenceStats]
@@ -75,6 +77,7 @@ export default function BookView() {
         { value: '', label: 'None' },
       ],
       onClickHighlight: (highlightOption) => setHighlightAction(highlightOption),
+      onClickFillBookInfo: () => setIsBookInfoFillerOpen(true),
     },
     onClickShowConfidenceStats: () => {
       setShowConfidenceStats((prev) => !prev);
@@ -106,6 +109,11 @@ export default function BookView() {
             <BookViewer
               book={file}
               mainPageHeight={mainPageHeight} />
+            
+            <BookInfoFiller
+              isOpen={isBookInfoFillerOpen}
+              handleClose={() => setIsBookInfoFillerOpen(false)}
+            />
           </Card>
         </Grid>
 

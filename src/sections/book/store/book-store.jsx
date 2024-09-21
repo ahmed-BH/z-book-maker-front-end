@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 export const useBookStore = create((set) => ({
   bookId: null,
   bookName: '',
+  pagesCount: 0,
   page: {
     pageNumber: 0,
     imageGetter: () => null,
@@ -36,7 +37,8 @@ export const useBookStore = create((set) => ({
     addNewBook: (bookName) => {
       set({ bookName });
       set({ bookId: uuid() });
-    }
+    },
+    setPagesCount: (pagesCount) => set({ pagesCount }),
   }
 }));
 

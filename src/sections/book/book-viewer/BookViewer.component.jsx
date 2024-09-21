@@ -51,6 +51,7 @@ export function BookViewer({ book, mainPageHeight }) {
   const onPDFLoadSuccess = ({ numPages }) => {
     setPDFPagesCount(numPages);
     setCurrentPage(1);
+    bookStoreActions.setPagesCount(numPages);
   }
 
   const listOfThumbnails = useMemo(() =>
