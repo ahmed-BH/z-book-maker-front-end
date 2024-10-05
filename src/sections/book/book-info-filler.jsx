@@ -2,13 +2,14 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
-import { Stack } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { Stack, FormControl } from '@mui/material';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import LinearProgress from '@mui/material/LinearProgress';
+import FormHelperText from '@mui/material/FormHelperText';
 
 import { saveBookInfo } from '../../service/book.api.service';
 import { useBookInfoStore, useBookStoreActions } from './store/book-store';
@@ -29,6 +30,8 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
   const bookStoreActions = useBookStoreActions();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [saveError, setSaveError] = useState(false);
+  const [helperText, setHelperText] = useState('');
 
   const draftBook = {};
   const draftBookFieldChanged = (field, value) => {
@@ -40,9 +43,11 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
     try {
       const savedBook = await saveBookInfo({ ...storedBook, ...draftBook });
       bookStoreActions.setBookInfo(savedBook);
+      setHelperText('');
 
     } catch (error) {
-      console.error('Failed to save book info', error);
+      setSaveError(true);
+      setHelperText(`${error}`);
     }
     setIsLoading(false);
   }
@@ -63,50 +68,53 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Please fill these general information about the book.
           </Typography>
-          <TextField
-            defaultValue={storedBook.title}
-            label="Book title"
-            variant="outlined" fullWidth sx={{ mt: 2 }}
-            onChange={(event) => draftBookFieldChanged('title', event.target.value)} />
-          <TextField
-            defaultValue={storedBook.description}
-            label="Book description"
-            variant="outlined" fullWidth sx={{ mt: 2 }}
-            onChange={(event) => draftBookFieldChanged('description', event.target.value)} />
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={{ xs: 1, sm: 2, md: 4 }}
-            useFlexGap>
+          <FormControl fullWidth error variant='standard'>
             <TextField
-              type="number"
-              defaultValue={storedBook.pagesCount}
-              label="Number of pages"
-              variant="outlined"
-              fullWidth sx={{ mt: 2 }}
-              onChange={(event) => draftBookFieldChanged('pagesCount', Number(event.target.value))} />
-            <TextField
-              defaultValue={storedBook.publishDate}
-              type="date"
-              label="Publish date"
-              InputLabelProps={{ shrink: true }}
+              defaultValue={storedBook.title}
+              label="Book title"
               variant="outlined" fullWidth sx={{ mt: 2 }}
-              onChange={(event) => draftBookFieldChanged('publishDate', event.target.value)} />
-          </Stack>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={{ xs: 1, sm: 2, md: 4 }}
-            useFlexGap>
+              onChange={(event) => draftBookFieldChanged('title', event.target.value)} />
             <TextField
-              defaultValue={storedBook.genre}
-              label="Genre"
+              defaultValue={storedBook.description}
+              label="Book description"
               variant="outlined" fullWidth sx={{ mt: 2 }}
-              onChange={(event) => draftBookFieldChanged('genre', event.target.value)} />
-            <TextField
-              defaultValue={storedBook.isbn}
-              label="ISBN"
-              variant="outlined" fullWidth sx={{ mt: 2 }}
-              onChange={(event) => draftBookFieldChanged('isbn', event.target.value)} />
-          </Stack>
+              onChange={(event) => draftBookFieldChanged('description', event.target.value)} />
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={{ xs: 1, sm: 2, md: 4 }}
+              useFlexGap>
+              <TextField
+                type="number"
+                defaultValue={storedBook.pagesCount}
+                label="Number of pages"
+                variant="outlined"
+                fullWidth sx={{ mt: 2 }}
+                onChange={(event) => draftBookFieldChanged('pagesCount', Number(event.target.value))} />
+              <TextField
+                defaultValue={storedBook.publishDate}
+                type="date"
+                label="Publish date"
+                InputLabelProps={{ shrink: true }}
+                variant="outlined" fullWidth sx={{ mt: 2 }}
+                onChange={(event) => draftBookFieldChanged('publishDate', event.target.value)} />
+            </Stack>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={{ xs: 1, sm: 2, md: 4 }}
+              useFlexGap>
+              <TextField
+                defaultValue={storedBook.genre}
+                label="Genre"
+                variant="outlined" fullWidth sx={{ mt: 2 }}
+                onChange={(event) => draftBookFieldChanged('genre', event.target.value)} />
+              <TextField
+                defaultValue={storedBook.isbn}
+                label="ISBN"
+                variant="outlined" fullWidth sx={{ mt: 2 }}
+                onChange={(event) => draftBookFieldChanged('isbn', event.target.value)} />
+            </Stack>
+            <FormHelperText>{helperText}</FormHelperText>
+          </FormControl>
 
           <ButtonGroup variant="outlined" sx={{ mt: 2 }}>
             <Button onClick={handleClose} size='large'>Cancel</Button>

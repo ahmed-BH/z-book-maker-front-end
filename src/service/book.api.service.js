@@ -5,6 +5,6 @@ export const saveBookInfo = async (bookInfo) => {
     const response = await axiosAPIInstance.post('/book', bookInfo);
     return response.data;
   } catch (error) {
-    throw('Failed to save book info', error);
+    throw new Error(`Failed to save book info: ${error}`);
   }
 }
