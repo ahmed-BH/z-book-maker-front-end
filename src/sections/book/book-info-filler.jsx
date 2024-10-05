@@ -10,8 +10,8 @@ import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import LinearProgress from '@mui/material/LinearProgress';
 
-import { useBookInfoStore } from './store/book-store';
 import { saveBookInfo } from '../../service/book.api.service';
+import { useBookInfoStore, useBookStoreActions } from './store/book-store';
 
 const style = {
   position: 'absolute',
@@ -26,6 +26,8 @@ const style = {
 
 export default function BookInfoFiller({ isOpen, handleClose }) {
   const storedBook = useBookInfoStore(({ title, pagesCount, description, isbn, publishDate, genre }) => ({ title, pagesCount, description, isbn, publishDate, genre }));
+  const bookStoreActions = useBookStoreActions();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const draftBook = {};
@@ -36,7 +38,9 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
   const saveBook = async () => {
     setIsLoading(true);
     try {
-      await saveBookInfo({ ...storedBook, ...draftBook });
+      const savedBook = await saveBookInfo({ ...storedBook, ...draftBook });
+      bookStoreActions.setBookInfo(savedBook);
+
     } catch (error) {
       console.error('Failed to save book info', error);
     }

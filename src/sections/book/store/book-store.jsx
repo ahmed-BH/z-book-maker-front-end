@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { v4 as uuid } from 'uuid';
 
 export const useBookStore = create((set) => ({
-  bookId: null,
+  id: null,
   bookName: '',
   description: '',
   publishDate: '', // yyyy-mm-dd
@@ -40,9 +40,9 @@ export const useBookStore = create((set) => ({
     generateBookId: () => set({ bookId: uuid() }),
     addNewBook: (bookName) => {
       set({ bookName });
-      set({ bookId: uuid() });
     },
     setPagesCount: (pagesCount) => set({ pagesCount }),
+    setBookInfo: (bookGeneralInfo) => set((state) => ({ ...state, ...bookGeneralInfo})),
   }
 }));
 
