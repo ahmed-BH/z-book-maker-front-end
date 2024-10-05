@@ -17,7 +17,8 @@ export const confidanceToColorMap = [
 
 export const confidanceColors = confidanceToColorMap.map(({ color }) => color);
 
-const ApiBaseURL = import.meta.env.VITE_SERVER_API_URL;
+export const baseURL = import.meta.env.VITE_SERVER_BASE_URL;
+const ApiBaseURL = `${baseURL}/api`;
 export const axiosAPIInstance = axios.create({
   baseURL: ApiBaseURL,
   headers: { 'Content-Type': 'application/json' },
