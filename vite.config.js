@@ -6,7 +6,6 @@ import checker from 'vite-plugin-checker';
 // ----------------------------------------------------------------------
 
 export default defineConfig({
-  base: '/z-book-maker-front-end/',
   plugins: [
     react(),
     checker({
