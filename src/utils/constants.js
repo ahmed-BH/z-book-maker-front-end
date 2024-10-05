@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { error, success, warning } from '../theme/palette';
 
 export const HEIGHT_OF_THUMBNAIL = 150;
@@ -14,3 +16,8 @@ export const confidanceToColorMap = [
 ];
 
 export const confidanceColors = confidanceToColorMap.map(({ color }) => color);
+
+export const axiosAPIInstance = axios.create({
+  baseURL: 'http://152.228.171.181:5000/api',
+  headers: { 'Content-Type': 'application/json' },
+});
