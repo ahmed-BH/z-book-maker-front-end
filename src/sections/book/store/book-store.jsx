@@ -4,6 +4,10 @@ import { v4 as uuid } from 'uuid';
 export const useBookStore = create((set) => ({
   bookId: null,
   bookName: '',
+  description: '',
+  publishDate: '', // yyyy-mm-dd
+  genre: '',
+  isbn: '',
   pagesCount: 0,
   page: {
     pageNumber: 0,
@@ -44,3 +48,11 @@ export const useBookStore = create((set) => ({
 
 export const useBookStoreActions = () => useBookStore((state) => state.actions);
 export const useBookPageStore = () => useBookStore((state) => state.page);
+export const useBookInfoStore = () => useBookStore((state) => ({
+  title: state.bookName,
+  pagesCount: state.pagesCount,
+  description: state.description,
+  genre: state.genre,
+  isbn: state.isbn,
+  publishDate: state.publishDate,
+}));
