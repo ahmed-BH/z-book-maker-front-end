@@ -43,7 +43,9 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
     try {
       const savedBook = await saveBookInfo({ ...storedBook, ...draftBook });
       bookStoreActions.setBookInfo(savedBook);
-      setHelperText('');
+      setSaveError(false);
+      setHelperText('Book saved successfully.');
+      setTimeout(() => setHelperText(''), 2000);
 
     } catch (error) {
       setSaveError(true);
@@ -113,7 +115,7 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
                 variant="outlined" fullWidth sx={{ mt: 2 }}
                 onChange={(event) => draftBookFieldChanged('isbn', event.target.value)} />
             </Stack>
-            <FormHelperText>{helperText}</FormHelperText>
+            <FormHelperText error={saveError}>{helperText}</FormHelperText>
           </FormControl>
 
           <ButtonGroup variant="outlined" sx={{ mt: 2 }}>
