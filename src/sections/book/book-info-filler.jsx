@@ -12,7 +12,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import FormHelperText from '@mui/material/FormHelperText';
 
 import { saveBookInfo } from '../../service/book.api.service';
-import { useBookInfoStore, useBookStoreActions } from './store/book-store';
+import { useBookInfoStore, useBookPageStore, useBookStoreActions } from './store/book-store';
 
 const style = {
   position: 'absolute',
@@ -28,6 +28,7 @@ const style = {
 export default function BookInfoFiller({ isOpen, handleClose }) {
   const storedBook = useBookInfoStore(({ title, pagesCount, description, isbn, publishDate, genre }) => ({ title, pagesCount, description, isbn, publishDate, genre }));
   const bookStoreActions = useBookStoreActions();
+  const bookPageStore = useBookPageStore();
 
   const [isLoading, setIsLoading] = useState(false);
   const [saveError, setSaveError] = useState(false);
@@ -71,16 +72,21 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
             Please fill these general information about the book.
           </Typography>
           <FormControl fullWidth error variant='standard'>
-            <TextField
-              defaultValue={storedBook.title}
-              label="Book title"
-              variant="outlined" fullWidth sx={{ mt: 2 }}
-              onChange={(event) => draftBookFieldChanged('title', event.target.value)} />
-            <TextField
-              defaultValue={storedBook.description}
-              label="Book description"
-              variant="outlined" fullWidth sx={{ mt: 2 }}
-              onChange={(event) => draftBookFieldChanged('description', event.target.value)} />
+            <Stack sx={{ mt: 2 }} direction={{ sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 2 }} useFlexGap>
+              <img src={bookPageStore.imageGetter()} style={{ width: '110px', height: '154px' }} alt="Book cover" />
+              <Stack direction='column' sx={{ width: '100%' }} useFlexGap>
+                <TextField
+                  defaultValue={storedBook.title}
+                  label="Book title"
+                  variant="outlined" fullWidth sx={{ mt: 2 }}
+                  onChange={(event) => draftBookFieldChanged('title', event.target.value)} />
+                <TextField
+                  defaultValue={storedBook.description}
+                  label="Book description"
+                  variant="outlined" fullWidth sx={{ mt: 2 }}
+                  onChange={(event) => draftBookFieldChanged('description', event.target.value)} />
+              </Stack>
+            </Stack>
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
               spacing={{ xs: 1, sm: 2, md: 4 }}
