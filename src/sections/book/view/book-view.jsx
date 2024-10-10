@@ -65,7 +65,6 @@ export default function BookView() {
       onClickScan: () => {
         const base64Image = storedBookPage.imageGetter();
         OCRAPI.OCRImage(base64Image)
-          .then((result) => result.json())
           .then((textBlocks) => {
             bookStoreActions.setPageTextBlocks(textBlocks);
           })

@@ -5,6 +5,6 @@ export class OCRAPI {
     const formData = new FormData()
     formData.append('imgData', image);
 
-    return axiosAPIInstance.post(`/page/ocr`, formData);
+    return axiosAPIInstance.post(`/page/ocr`, formData).then((response) => response.data);
   }
 }
