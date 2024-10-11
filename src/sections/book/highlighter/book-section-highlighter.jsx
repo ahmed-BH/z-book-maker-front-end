@@ -33,21 +33,21 @@ export function BookSectionHighlighter({ highlightAction, container, textBlocks 
     if (highlightAction === PARAGRAPHIGH_HLIGHTER_ACTION) {
       const paragraphs = textBlocks[0]?.paragraphs || [];
       sections = paragraphs.map((paragraph, i) => (
-        <Tooltip followCursor title={`${Math.ceil(paragraph.confidence)}%`} key={i}>
+        <Tooltip followCursor title={`${Math.ceil(paragraph.confidence)}%`} key={`${i}_${paragraph.confidence}`}>
           <div style={getRectangle(paragraph, container)} />
         </Tooltip>
       ));
     } else if (highlightAction === LINE_HIGHLIGHTER_ACTION) {
       const lines = OCRUtils.flattenParagraphLines(textBlocks)
-      sections = lines.map((line) => (
-        <Tooltip followCursor title={`${Math.ceil(line.confidence)}%`}>
+      sections = lines.map((line, i) => (
+        <Tooltip followCursor title={`${Math.ceil(line.confidence)}%`} key={`${i}_${line.confidence}`}>
           <div style={getRectangle(line, container)} />
         </Tooltip>
       ));
     } else if (highlightAction === WORD_HIGHLIGHTER_ACTION) {
       const words = OCRUtils.flattenParagraphWords(textBlocks)
-      sections = words.map((word) => (
-        <Tooltip followCursor title={`${Math.ceil(word.confidence)}%`}>
+      sections = words.map((word, i) => (
+        <Tooltip followCursor title={`${Math.ceil(word.confidence)}%`} key={`${i}_${word.confidence}`}>
           <div style={getRectangle(word, container)} />
         </Tooltip>
       ));
