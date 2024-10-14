@@ -11,7 +11,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import LinearProgress from '@mui/material/LinearProgress';
 import FormHelperText from '@mui/material/FormHelperText';
 
-import { saveBookInfo, updateBookInfo } from '../../service/book.api.service';
+import { saveBookInfo } from '../../service/book.api.service';
 import { useBookInfoStore, useBookPageStore, useBookStoreActions } from './store/book-store';
 
 const style = {
@@ -41,9 +41,10 @@ export default function BookInfoFiller({ isOpen, handleClose }) {
 
   const saveBook = async () => {
     setIsLoading(true);
-    const saveFn = storedBook.id ? updateBookInfo : saveBookInfo;
+    const isFirstSave = !storedBook.id;
     try {
-      const savedBook = await saveFn({ ...storedBook, ...draftBook });
+      const thumbnail = storedBook.thumbnailURL ? null : bookPageStore.imageGetter();
+      const savedBook = await saveBookInfo({ ...storedBook, ...draftBook }, thumbnail, isFirstSave);
       bookStoreActions.setBookInfo(savedBook);
       setSaveError(false);
       setHelperText('Book saved successfully.');

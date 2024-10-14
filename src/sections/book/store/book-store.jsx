@@ -8,6 +8,7 @@ export const useBookStore = create((set) => ({
   publishDate: '', // yyyy-mm-dd
   genre: '',
   isbn: '',
+  thumbnailURL: '',
   pagesCount: 0,
   page: {
     pageNumber: 0,
@@ -49,10 +50,12 @@ export const useBookStore = create((set) => ({
 export const useBookStoreActions = () => useBookStore((state) => state.actions);
 export const useBookPageStore = () => useBookStore((state) => state.page);
 export const useBookInfoStore = () => useBookStore((state) => ({
+  id: state.id,
   title: state.bookName,
   pagesCount: state.pagesCount,
   description: state.description,
   genre: state.genre,
   isbn: state.isbn,
   publishDate: state.publishDate,
+  thumbnailURL: state.thumbnailURL,
 }));
